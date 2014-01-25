@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tutorial | Tasty Cocoa Software LLC]]></title>
+  <link href="http://www.tastycocoa.com/blog/categories/tutorial/atom.xml" rel="self"/>
+  <link href="http://www.tastycocoa.com/"/>
+  <updated>2014-01-25T11:58:50-05:00</updated>
+  <id>http://www.tastycocoa.com/</id>
+  <author>
+    <name><![CDATA[James Frye]]></name>
+    <email><![CDATA[james.frye@tastycocoa.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting started with barcode scanning in iOS 7]]></title>
+    <link href="http://www.tastycocoa.com/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7/"/>
+    <updated>2014-01-23T19:25:53-05:00</updated>
+    <id>http://www.tastycocoa.com/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7</id>
+    <content type="html"><![CDATA[<p>When iOS 7 was announced there was a new SDK API added to AVCapture. The API allowed developers to take advantage of the camera in order to scan the most popular forms of barcodes. Before iOS 7 developers had to use 3rd party sdks such as <a href="http://zbar.sourceforge.net/iphone/index.html?utm_source=twitterfeed&amp;utm_medium=twitter" title="ZBar">Zbar</a> and insert another example. This tutorial will help get you started with scanning barcodes on iOS 7.</p>
+
+<p>First we are going to open Xcode and create a new project (File->New Project). Select the &ldquo;Single View Application&rdquo; option since this app is going to be a single view app. Name the application whatever you want to name it. For this tutorial, I am going to name the example app &ldquo;BarcodeScanner&rdquo;. The targeted device is up to you. However, for this tutorial I am going to build an app for the iPhone device family.</p>
+
+<p>Under build settings click the &ldquo;Link Binary With Libraries&rdquo; item if it is hidden and click the plus sign to link against the AVFoundation framework. Now that we have linked AVFoundation we can get to the code and set up our barcode scanning interface.</p>
+
+<p>``` objc Instance Variables</p>
+
+<h1>import &lt;AVFoundation/AVFoundation.h></h1>
+
+<h1>import &ldquo;TCViewController.h&rdquo;</h1>
+
+<p>@interface TCViewController () <AVCaptureMetadataOutputObjectsDelegate></p>
+
+<p>@property (strong, nonatomic) AVCaptureSession<em> session;
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer </em>previewLayer;
+@property (strong,nonatomic) AVCaptureMetadataOutput *metadataOutput;</p>
+
+<p>@end
+```
+Apple describes <a href="https://developer.apple.com/library/mac/documentation/AVFoundation/Reference/AVCaptureSession_Class/Reference/Reference.html">AVCaptureSession</a> as &ldquo;You use an AVCaptureSession object to coordinate the flow of data from AV input devices to outputs.&rdquo;. AVCaptureSession is the object that allows you to get information from the camera to your code. The AVCaptureVideoPreviewLayer is a layer that shows the live camera view that you are going to show to present to the user while they are scanning the barcode.</p>
+
+<p>``` objc Camera View Setup
+&ndash; (void)viewDidLoad
+{</p>
+
+<pre><code>[super viewDidLoad];
+
+self.session = [AVCaptureSession new]; // Create new session
+[self.session setSessionPreset:AVCaptureSessionPreset640x480];
+
+[self updateCameraSelection];
+
+CALayer *rootLayer = self.view.layer;
+[rootLayer setMasksToBounds:YES];
+self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
+[self.previewLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
+[self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+
+[self.previewLayer setFrame:[rootLayer frame]];
+
+[rootLayer addSublayer:self.previewLayer];
+</code></pre>
+
+<p>}</p>
+
+<ul>
+<li><p>(void) updateCameraSelection {
+  // Changing the camera device will reset connection state, so we call the
+  // update*Detection functions to resync them.  When making multiple
+  // session changes, wrap in a beginConfiguration / commitConfiguration.
+  // This will avoid consecutive session restarts for each configuration
+  // change (noticeable delay and camera flickering)</p>
+
+<p>  [self.session beginConfiguration];</p>
+
+<p>  // have to remove old inputs before we test if we can add a new input
+  NSArray* oldInputs = [self.session inputs];</p>
+
+<p>  for (AVCaptureInput *oldInput in oldInputs)
+      [self.session removeInput:oldInput];</p>
+
+<p>  AVCaptureDeviceInput<em> input = [self pickCamera];
+  if ( ! input ) {
+      // failed, restore old inputs
+      for (AVCaptureInput </em>oldInput in oldInputs)
+          [self.session addInput:oldInput];
+  } else {
+      // succeeded, set input and update connection states
+      [self.session addInput:input];
+  }</p>
+
+<p>  [self.session commitConfiguration];
+}
+```
+Describe what the previous code did.</p></li>
+</ul>
+
+
+<p>``` objc Set up Barcode Detection
+&ndash; (void)setupBarcodeDetection {</p>
+
+<pre><code>self.metadataOutput = [AVCaptureMetadataOutput new];
+if ( ! [self.session canAddOutput:self.metadataOutput] ) {
+    [self teardownBarcodeDetection];
+    return;
+}
+
+// Metadata processing will be fast, and mostly updating UI which should be done on the main thread
+// So just use the main dispatch queue instead of creating a separate one
+[self.metadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+[self.session addOutput:self.metadataOutput];
+
+if ( ! [self.metadataOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeEAN13Code] ) {
+    [self teardownBarcodeDetection];
+    return;
+}
+
+self.metadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeEAN13Code];
+</code></pre>
+
+<p>}</p>
+
+<ul>
+<li>(void)teardownBarcodeDetection {
+  if ( self.metadataOutput ) {
+      [self.session removeOutput:self.metadataOutput];
+  }
+}</li>
+</ul>
+
+
+<p>```</p>
+
+<p>``` objc Update viewDidLoad to start barcode scanning
+&ndash; (void) captureOutput:(AVCaptureOutput <em>)captureOutput didOutputMetadataObjects:(NSArray </em>)faces fromConnection:(AVCaptureConnection *)connection {</p>
+
+<pre><code>[self teardownBarcodeDetection];
+
+AVMetadataMachineReadableCodeObject *barcode = faces[0];
+
+NSLog(@"The value is %@", barcode.stringValue);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>``` objc Update viewDidLoad to start barcode scanning
+&ndash; (void)viewDidLoad
+{</p>
+
+<pre><code>[super viewDidLoad];
+
+self.session = [AVCaptureSession new];
+[self.session setSessionPreset:AVCaptureSessionPreset640x480];
+
+[self updateCameraSelection];
+
+CALayer *rootLayer = self.view.layer;
+
+self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
+[self.previewLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
+[self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+
+[self.previewLayer setFrame:[rootLayer frame]];
+
+[rootLayer addSublayer:self.previewLayer];
+
+[self setupBarcodeDetection];
+
+[self.session startRunning];
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,97 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Tasty Cocoa Software LLC</title>
-  <meta name="author" content="James Frye">
-
-  
-  <meta name="description" content="When iOS 7 was announced there was a new SDK API added to AVCapture. The API allowed developers to take advantage of the camera in order to scan the &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><![CDATA[Tasty Cocoa Software LLC]]></title>
+  <link href="http://www.tastycocoa.com/atom.xml" rel="self"/>
+  <link href="http://www.tastycocoa.com/"/>
+  <updated>2014-01-25T11:58:50-05:00</updated>
+  <id>http://www.tastycocoa.com/</id>
+  <author>
+    <name><![CDATA[James Frye]]></name>
+    <email><![CDATA[james.frye@tastycocoa.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <link rel="canonical" href="http://www.tastycocoa.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Tasty Cocoa Software LLC" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic' rel='stylesheet' type='text/css'>
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Tasty Cocoa Software LLC</a></h1>
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:www.tastycocoa.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7/">Getting Started With Barcode Scanning in iOS 7</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-23T19:25:53-05:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When iOS 7 was announced there was a new SDK API added to AVCapture. The API allowed developers to take advantage of the camera in order to scan the most popular forms of barcodes. Before iOS 7 developers had to use 3rd party sdks such as <a href="http://zbar.sourceforge.net/iphone/index.html?utm_source=twitterfeed&amp;utm_medium=twitter" title="ZBar">Zbar</a> and insert another example. This tutorial will help get you started with scanning barcodes on iOS 7.</p>
+  <entry>
+    <title type="html"><![CDATA[Getting Started With Barcode Scanning in iOS 7]]></title>
+    <link href="http://www.tastycocoa.com/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7/"/>
+    <updated>2014-01-23T19:25:53-05:00</updated>
+    <id>http://www.tastycocoa.com/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7</id>
+    <content type="html"><![CDATA[<p>When iOS 7 was announced there was a new SDK API added to AVCapture. The API allowed developers to take advantage of the camera in order to scan the most popular forms of barcodes. Before iOS 7 developers had to use 3rd party sdks such as <a href="http://zbar.sourceforge.net/iphone/index.html?utm_source=twitterfeed&amp;utm_medium=twitter" title="ZBar">Zbar</a> and insert another example. This tutorial will help get you started with scanning barcodes on iOS 7.</p>
 
 <p>First we are going to open Xcode and create a new project (File->New Project). Select the &ldquo;Single View Application&rdquo; option since this app is going to be a single view app. Name the application whatever you want to name it. For this tutorial, I am going to name the example app &ldquo;BarcodeScanner&rdquo;. The targeted device is up to you. However, for this tutorial I am going to build an app for the iPhone device family.</p>
 
@@ -347,71 +274,7 @@
 
 
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/01/23/getting-started-with-barcode-scanning-in-ios-7/">Getting Started With Barcode Scanning in iOS 7</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - James Frye -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="/javascripts/aharris.js"></script>
-
-</body>
-</html>
+</feed>
